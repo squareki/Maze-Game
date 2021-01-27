@@ -1,4 +1,3 @@
-# %load Maze_generation.py
 import random
 
 class Maze():
@@ -28,7 +27,7 @@ class Maze():
             # 1 is up, 2 is down, 3 is left, 4 is right
         
         def __contains__(self, direction):
-            return (self.directions & (1 << direction))
+            return self.directions & (1 << direction)
         
         def add_direction(self, direction):
             self.directions |= (1 << direction)
@@ -52,18 +51,23 @@ class Maze():
                 self.disjoint_set.union(u, v)
                 if v - u == 1:
                     self.grid[u // row_size][u % row_size].add_direction(self.direction["right"])
-                    self.grid[v // row_size][v % row_size].add_direction(self.direction["left"])
                 else:
                     self.grid[u // row_size][u % row_size].add_direction(self.direction["down"])
-                    self.grid[v // row_size][v % row_size].add_direction(self.direction["up"])
                     
         
-#         for row in self.grid:
-#             for elem in row:
-#                 for key, value in self.direction.items():
-#                     if value in elem:
-#                         print(key)
-#                 print('\n')
+        [print(' _', end = '') for i in range(row_size)]
+        for row in self.grid:
+            print('\n', '|', sep = '', end = '')
+            for elem in row:
+                if not self.direction['down'] in elem:
+                    print('_', end = '')
+                else:
+                    print(' ', end = '')
+                if not self.direction['right'] in elem:
+                    print('|', end = '')
+                else:
+                    print(' ', end = '')
+
                 
     
     def __init__(self, maze_height, maze_width):
@@ -71,7 +75,7 @@ class Maze():
         self.maze_width = maze_width
         self.grid = [[self.Bitset() for j in range(maze_width)] for i in range(maze_height)]
         self.disjoint_set = self.disjoint_set_union(maze_height * maze_width)
-        self.direction = {"up" : 1, "down" : 2, "left" : 3, "right" : 4}
+        self.direction = {"down" : 2, "right" : 4}
         self.build_maze()
         
 
@@ -79,4 +83,4 @@ class Maze():
         return self.grid
     
 
-# m = Maze(10, 10)
+m = Maze(20, 20)

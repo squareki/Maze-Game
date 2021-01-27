@@ -1,15 +1,16 @@
+# %load Maze_generation.py
 import random
 
 class Maze():
     class disjoint_set_union():
         def __init__(self, size):
             self.parent = [i for i in range(size)]
-            self.set_size = [i for i in range(size)]
+            self.size = [i for i in range(size)]
             
         def find(self, v):
             if self.parent[v] == v:
                 return v
-            self.parent[v] = find(self.parent[v])
+            self.parent[v] = self.find(self.parent[v])
             return self.parent[v]
         
         def union(self, u, v):
@@ -27,28 +28,42 @@ class Maze():
             # 1 is up, 2 is down, 3 is left, 4 is right
         
         def __contains__(self, direction):
-            return (self.directions & (1 << direction)) != 0
+            return (self.directions & (1 << direction))
         
-        def add_direction(self, direction: str):
+        def add_direction(self, direction):
             self.directions |= (1 << direction)
     
     def build_maze(self):
         edge_graph = []
+        row_size = len(self.grid[0])
+        
         for i in range(len(self.grid)):
-            for j in range(len(self.grid[0]) - 1):
-                edge_graph.append((j + i * len(self.grid[0]), j + 1 + i * len(self.grid[0])))
+            for j in range(row_size - 1):
+                edge_graph.append((j + i * row_size, j + 1 + i * row_size))
         for i in range(len(self.grid) - 1):
-            for j in range(len(self.grid[0])):
-                edge_graph.append((j + i * len(self.grid[0]), j + (i + 1) * len(self.grid[0])))
+            for j in range(row_size):
+                edge_graph.append((j + i * row_size, j + (i + 1) * row_size))
                 
         random.shuffle(edge_graph)
         
-        print(edge_graph)
         
         for u, v in edge_graph:
             if self.disjoint_set.find(u) != self.disjoint_set.find(v):
                 self.disjoint_set.union(u, v)
+                if v - u == 1:
+                    self.grid[u // row_size][u % row_size].add_direction(self.direction["right"])
+                    self.grid[v // row_size][v % row_size].add_direction(self.direction["left"])
+                else:
+                    self.grid[u // row_size][u % row_size].add_direction(self.direction["down"])
+                    self.grid[v // row_size][v % row_size].add_direction(self.direction["up"])
+                    
         
+#         for row in self.grid:
+#             for elem in row:
+#                 for key, value in self.direction.items():
+#                     if value in elem:
+#                         print(key)
+#                 print('\n')
                 
     
     def __init__(self, maze_height, maze_width):
@@ -60,5 +75,8 @@ class Maze():
         self.build_maze()
         
 
+    def get_grid(self):
+        return self.grid
+    
 
 # m = Maze(10, 10)

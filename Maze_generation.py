@@ -1,3 +1,5 @@
+import random
+
 class Maze():
     class disjoint_set_union():
         def __init__(self, size):

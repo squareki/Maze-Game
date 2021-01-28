@@ -1,5 +1,6 @@
 import random
 from enum import Enum
+
  
 class Direction(Enum):
     __order__ = "UP DOWN LEFT RIGHT"
@@ -36,22 +37,22 @@ class Maze():
             self.directions = 0
  
         def __contains__(self, direction):
-            return self.directions & (1 << direction)
+            return self.directions & (1 << direction.value)
  
         def __str__(self):
             res = []
-            if not Direction.DOWN.value in self:
+            if not Direction.DOWN in self:
                 res.append('_')
             else:
                 res.append(' ')
-            if not Direction.RIGHT.value in self:
+            if not Direction.RIGHT in self:
                 res.append('│')
             else:
                 res.append(' ')
             return ''.join(res)
  
         def add_direction(self, direction):
-            self.directions |= (1 << direction)
+            self.directions |= (1 << direction.value)
  
     def print_maze(self):
         [print(' _', end = '') for i in range(self.maze_width)]
@@ -76,9 +77,12 @@ class Maze():
             if self.disjoint_set.find(u) != self.disjoint_set.find(v):
                 self.disjoint_set.union(u, v)
                 if v - u == 1:
-                    self.grid[u // self.maze_width][u % self.maze_width].add_direction(Direction.RIGHT.value)
+                    self.grid[u // self.maze_width][u % self.maze_width].add_direction(Direction.RIGHT)
+                    self.grid[v // self.maze_width][v % self.maze_width].add_direction(Direction.LEFT)
                 else:
-                    self.grid[u // self.maze_width][u % self.maze_width].add_direction(Direction.DOWN.value)                
+                    self.grid[u // self.maze_width][u % self.maze_width].add_direction(Direction.DOWN) 
+                    self.grid[v // self.maze_width][v % self.maze_width].add_direction(Direction.UP)                
+
  
     def __init__(self, maze_height, maze_width):
         self.maze_height = maze_height
@@ -89,4 +93,4 @@ class Maze():
  
  
 m = Maze(20, 20)
-# m.print_maze()
+m.print_maze()

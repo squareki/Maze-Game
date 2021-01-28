@@ -6,28 +6,30 @@ class Player():
         self.x_pos = x_pos
         self.y_pos = y_pos
 
-    def move(self, Direction, Maze):
-        if (Maze.get_grid()[self.x_pos][self.y_pos].__contains__(Direction)):
-            if (Direction == UP):
-                self.x_pos += 1
-            elif (Direction == DOWN):
+    def move(self, direction, maze):
+        if direction in maze.grid[self.x_pos][self.y_pos]:
+            if (direction == Direction.UP):
                 self.x_pos -= 1
-            elif (Direction == RIGHT):
+            elif (direction == Direction.DOWN):
+                self.x_pos += 1
+            elif (direction == Direction.RIGHT):
                 self.y_pos += 1
-            elif (Direction == LEFT):
+            elif (direction == Direction.LEFT):
                 self.y_pos -= 1
         return self.x_pos, self.y_pos
     
 
+
 m = Maze(10, 10)
-board = Maze.grid
+m.print_maze()
+board = m.grid
 p = Player(1, 1)
 print()
 print("player is at [{};{}]".format(p.x_pos, p.y_pos))
-print("can we move from 1,1 to right? {}".format(Maze.grid[1][1].__contains(Direction(UP))) == True)
-p.move(Direction['UP'], Maze)
+print("can we move from 1,1 to right? {}".format(Direction.RIGHT in m.grid[1][1]))
+p.move(Direction.UP, m)
 print("player is at [{};{}]".format(p.x_pos, p.y_pos))
-p.move(Direction.LEFT, Maze)
+p.move(Direction.LEFT, m)
 print("player is at [{};{}]".format(p.x_pos, p.y_pos))
-p.move(Direction.DOWN, Maze)
+p.move(Direction.DOWN, m)
 print("player is at [{};{}]".format(p.x_pos, p.y_pos))

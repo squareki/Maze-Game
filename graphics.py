@@ -21,3 +21,6 @@ while running:
     pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(40,40,80,80))
 
     pygame.display.update()
+
+pygame.display.quit()
+pygame.quit()

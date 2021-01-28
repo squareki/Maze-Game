@@ -10,7 +10,7 @@ class Direction(Enum):
     RIGHT = 4
  
  
-class disjoint_set_union():
+class DisjointSetUnion():
     def __init__(self, size):
         self.parent = [i for i in range(size)]
         self.size = [i for i in range(size)]
@@ -88,7 +88,7 @@ class Maze():
         self.maze_height = maze_height
         self.maze_width = maze_width
         self.grid = [[self.Bitset() for j in range(maze_width)] for i in range(maze_height)]
-        self.disjoint_set = disjoint_set_union(maze_height * maze_width)
+        self.disjoint_set = DisjointSetUnion(maze_height * maze_width)
         self.build_maze()
  
  

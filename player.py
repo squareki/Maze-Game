@@ -1,4 +1,4 @@
-from Maze_generation import *
+from maze_generation import *
 
 class Player():
     

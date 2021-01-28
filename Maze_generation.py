@@ -1,4 +1,11 @@
 import random
+from enum import Enum
+
+class Direction(Enum):
+    UP = 1
+    DOWN = 2
+    LEFT = 3
+    RIGHT = 4
 
 class Maze():
     class disjoint_set_union():
@@ -57,14 +64,14 @@ class Maze():
         
         [print(' _', end = '') for i in range(row_size)]
         for row in self.grid:
-            print('\n', '|', sep = '', end = '')
+            print('\n', '│', sep = '', end = '')
             for elem in row:
                 if not self.direction['down'] in elem:
                     print('_', end = '')
                 else:
                     print(' ', end = '')
                 if not self.direction['right'] in elem:
-                    print('|', end = '')
+                    print('│', end = '')
                 else:
                     print(' ', end = '')
 
@@ -83,4 +90,4 @@ class Maze():
         return self.grid
     
 
-m = Maze(20, 20)
+#m = Maze(20, 20)

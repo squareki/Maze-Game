@@ -89,4 +89,4 @@ class Maze():
     
 
 m = Maze(20, 20)
-# m.print_maze()
+m.print_maze()

@@ -55,7 +55,7 @@ class Maze():
             self.directions |= (1 << direction.value)
  
     def print_maze(self):
-        [print(' _', end = '') for i in range(self.maze_width)]
+        [print(' _', end = '') for i in range(self.width)]
         for row in self.grid:
             print('\n', '│', sep = '', end = '')
             for elem in row:
@@ -64,12 +64,12 @@ class Maze():
     def build_maze(self):
         edge_graph = []
  
-        for i in range(self.maze_height):
-            for j in range(self.maze_width - 1):
-                edge_graph.append((j + i * self.maze_width, j + 1 + i * self.maze_width))
-        for i in range(self.maze_height - 1):
-            for j in range(self.maze_width):
-                edge_graph.append((j + i * self.maze_width, j + (i + 1) * self.maze_width))
+        for i in range(self.height):
+            for j in range(self.width - 1):
+                edge_graph.append((j + i * self.width, j + 1 + i * self.width))
+        for i in range(self.height - 1):
+            for j in range(self.width):
+                edge_graph.append((j + i * self.width, j + (i + 1) * self.width))
  
         random.shuffle(edge_graph)
  
@@ -77,20 +77,16 @@ class Maze():
             if self.disjoint_set.find(u) != self.disjoint_set.find(v):
                 self.disjoint_set.union(u, v)
                 if v - u == 1:
-                    self.grid[u // self.maze_width][u % self.maze_width].add_direction(Direction.RIGHT)
-                    self.grid[v // self.maze_width][v % self.maze_width].add_direction(Direction.LEFT)
+                    self.grid[u // self.width][u % self.width].add_direction(Direction.RIGHT)
+                    self.grid[v // self.width][v % self.width].add_direction(Direction.LEFT)
                 else:
-                    self.grid[u // self.maze_width][u % self.maze_width].add_direction(Direction.DOWN) 
-                    self.grid[v // self.maze_width][v % self.maze_width].add_direction(Direction.UP)                
+                    self.grid[u // self.width][u % self.width].add_direction(Direction.DOWN) 
+                    self.grid[v // self.width][v % self.width].add_direction(Direction.UP)                
 
  
     def __init__(self, maze_height, maze_width):
-        self.maze_height = maze_height
-        self.maze_width = maze_width
+        self.height = maze_height
+        self.width = maze_width
         self.grid = [[self.Bitset() for j in range(maze_width)] for i in range(maze_height)]
         self.disjoint_set = DisjointSetUnion(maze_height * maze_width)
         self.build_maze()
- 
- 
-m = Maze(20, 20)
-m.print_maze()

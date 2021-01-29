@@ -1,14 +1,50 @@
 import pygame
+from maze_generation import *
+
+
+def draw_maze(maze, surface):
+    maze.print_maze()
+    cell_size = 30
+    color = (0, 244, 244)
+    border_color = (0, 0, 0)
+    padding = 10
+    
+    pygame.draw.rect(surface, border_color, (0, 0, padding, padding))
+#     pygame.draw.rect(surface, border_color, (padding, 0, (maze.width + padding) * cell_size,  ))
+    for i in range(maze.width):
+        for j in range(maze.height):
+            cell = maze.grid[i][j]
+            cell_x, cell_y = padding + (padding + cell_size) * j, padding + (padding + cell_size) * i
+            pygame.draw.rect(surface, color, (cell_x, cell_y, cell_size, cell_size))
+            
+            if Direction.RIGHT in cell:
+                border_color = color
+            pygame.draw.rect(surface, border_color, (cell_x + cell_size, cell_y, padding, cell_size))
+            border_color = (0, 0, 0)
+            
+            if Direction.DOWN in cell:
+                border_color = color
+            pygame.draw.rect(surface, border_color, (cell_x, cell_y + cell_size, cell_size, padding))
+            border_color = (0, 0, 0)
+            
+            pygame.draw.rect(surface, border_color, (cell_x + cell_size, cell_y + cell_size, padding, padding))
+
+            
+    pygame.display.update()
 
 WINDOW_HEIGHT = 600
 WINDOW_WIDTH = 600
 
-BLUE = (0, 0, 200)
+BLUE = (200, 200, 200)
 
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 screen.fill(BLUE)
 running = True
+
+m = Maze(10, 10)
+
+draw_maze(m, screen)
 
 while running:
     for event in pygame.event.get():
@@ -17,10 +53,6 @@ while running:
         if event.type == pygame.KEYDOWN:
             running = False
     pygame.display.flip()
-
-    pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(40,40,80,80))
-
-    pygame.display.update()
 
 pygame.display.quit()
 pygame.quit()

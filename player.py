@@ -20,16 +20,16 @@ class Player():
     
 
 
-m = Maze(10, 10)
-m.print_maze()
-board = m.grid
-p = Player(1, 1)
-print()
-print("player is at [{};{}]".format(p.x_pos, p.y_pos))
-print("can we move from 1,1 to right? {}".format(Direction.RIGHT in m.grid[1][1]))
-p.move(Direction.UP, m)
-print("player is at [{};{}]".format(p.x_pos, p.y_pos))
-p.move(Direction.LEFT, m)
-print("player is at [{};{}]".format(p.x_pos, p.y_pos))
-p.move(Direction.DOWN, m)
-print("player is at [{};{}]".format(p.x_pos, p.y_pos))
+# m = Maze(10, 10)
+# m.print_maze()
+# board = m.grid
+# p = Player(1, 1)
+# print()
+# print("player is at [{};{}]".format(p.x_pos, p.y_pos))
+# print("can we move from 1,1 to right? {}".format(Direction.RIGHT in m.grid[1][1]))
+# p.move(Direction.UP, m)
+# print("player is at [{};{}]".format(p.x_pos, p.y_pos))
+# p.move(Direction.LEFT, m)
+# print("player is at [{};{}]".format(p.x_pos, p.y_pos))
+# p.move(Direction.DOWN, m)
+# print("player is at [{};{}]".format(p.x_pos, p.y_pos))

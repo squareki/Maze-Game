@@ -2,10 +2,18 @@ import pygame
 from maze_generation import *
 from player import *
 
+WHITE = (255, 255, 255)
+GREY = (200, 200, 200)
+LIGHT_BLUE = (0, 244, 244)
+PINK = (252, 180, 213)
+BROWN = (220, 88, 5)
+YELLOW = (255, 255, 0)
+GOLD = (249, 166, 2)
+DUSTY = (207, 181, 59)
 
 def draw_maze(maze, surface):
     cell_size = 30
-    color = (0, 244, 244)
+    color = PINK
     border_color = (10, 10, 10)
     padding = 10
 
@@ -32,10 +40,8 @@ def draw_maze(maze, surface):
             pygame.draw.rect(surface, border_color, (cell_x + cell_size, cell_y + cell_size, padding, padding))
 
     
-WINDOW_HEIGHT = 600
-WINDOW_WIDTH = 600
-
-GREY = (200, 200, 200)
+WINDOW_HEIGHT = 330
+WINDOW_WIDTH = 490
 
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -47,7 +53,7 @@ m = Maze(8, 12)
 background = screen.copy()
 draw_maze(m, background)
 
-player = Player("player_img.bmp", 30, 10, 10, 10)
+player = Player("semicolon_three.png", 30, 10, 10, 10)
 p_start_x, p_start_y = 0, 0
 
 screen.blit(background, (0, 0))

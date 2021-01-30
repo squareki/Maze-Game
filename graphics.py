@@ -1,12 +1,14 @@
 import pygame
-# from maze_generation import *
+from maze_generation import *
+from player import *
+
 
 def draw_maze(maze, surface):
     cell_size = 30
     color = (0, 244, 244)
     border_color = (10, 10, 10)
     padding = 10
-    
+
     pygame.draw.rect(surface, border_color, (0, 0, padding, padding))
     pygame.draw.rect(surface, border_color, (padding, 0, maze.width * (cell_size + padding), padding))
     pygame.draw.rect(surface, border_color, (0, padding, padding,maze.height * (cell_size + padding)))
@@ -16,42 +18,60 @@ def draw_maze(maze, surface):
             cell = maze.grid[i][j]
             cell_x, cell_y = padding + (padding + cell_size) * j, padding + (padding + cell_size) * i
             pygame.draw.rect(surface, color, (cell_x, cell_y, cell_size, cell_size))
-            
+
             if Direction.RIGHT in cell:
                 border_color = color
             pygame.draw.rect(surface, border_color, (cell_x + cell_size, cell_y, padding, cell_size))
-            border_color = (0, 0, 0)
-            
+            border_color = (10, 10, 10)
+
             if Direction.DOWN in cell:
                 border_color = color
             pygame.draw.rect(surface, border_color, (cell_x, cell_y + cell_size, cell_size, padding))
-            border_color = (0, 0, 0)
-            
+            border_color = (10, 10, 10)
+
             pygame.draw.rect(surface, border_color, (cell_x + cell_size, cell_y + cell_size, padding, padding))
 
-            
-    pygame.display.update()
     
 WINDOW_HEIGHT = 600
 WINDOW_WIDTH = 600
 
-BLUE = (200, 200, 200)
+GREY = (200, 200, 200)
 
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-screen.fill(BLUE)
+screen.fill(GREY)
 running = True
 
 m = Maze(8, 12)
 
-draw_maze(m, screen)
+background = screen.copy()
+draw_maze(m, background)
+
+player = Player("player_img.bmp", 30, 10, 10, 10)
+p_start_x, p_start_y = 0, 0
+
+screen.blit(background, (0, 0))
+screen.blit(player.surf, player.rect)
+pygame.display.flip()
 
 while running:
+    cur_cell = m.grid[player.y_pos + p_start_y][player.x_pos + p_start_x]
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        if event.type == pygame.KEYDOWN:
-            running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_w or event.key == pygame.K_UP:
+                player.move(Direction.UP, cur_cell)
+            elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
+                player.move(Direction.DOWN, cur_cell)
+            elif event.key == pygame.K_a or event.key == pygame.K_LEFT:
+                player.move(Direction.LEFT, cur_cell)
+            elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                player.move(Direction.RIGHT, cur_cell)
+
+    screen.fill(GREY)
+    screen.blit(background, (0, 0))
+    screen.blit(player.surf, player.rect)
     pygame.display.flip()
 
 pygame.display.quit()

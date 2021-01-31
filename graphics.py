@@ -39,16 +39,22 @@ def draw_maze(maze, surface):
 
             pygame.draw.rect(surface, border_color, (cell_x + cell_size, cell_y + cell_size, padding, padding))
 
-    
-WINDOW_HEIGHT = 330
-WINDOW_WIDTH = 490
+
+MAZE_HEIGHT = 8
+MAZE_WIDTH = 12
+
+PADDING = 10
+CELL_SIZE = 30
+
+WINDOW_HEIGHT = (PADDING + CELL_SIZE) * MAZE_HEIGHT + PADDING  # +PADDING for upper border
+WINDOW_WIDTH = (PADDING + CELL_SIZE) * MAZE_WIDTH + PADDING    # +PADDING for left border
 
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 screen.fill(GREY)
 running = True
 
-m = Maze(8, 12)
+m = Maze(MAZE_HEIGHT, MAZE_WIDTH)
 
 background = screen.copy()
 draw_maze(m, background)
